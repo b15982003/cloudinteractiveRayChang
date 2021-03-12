@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">cloudinteractiver Ray Chang</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_home_button_next">Request Api</string>
+    <string name="fragment_home_text_name">張睿平</string>
+</resources>

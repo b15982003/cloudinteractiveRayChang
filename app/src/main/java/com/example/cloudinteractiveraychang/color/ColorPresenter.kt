@@ -1,8 +1,8 @@
 package com.example.cloudinteractiveraychang.color
 
+import android.os.Message
 import com.example.cloudinteractiveraychang.base.BasePresenter
 import com.example.cloudinteractiveraychang.data.Colors
-import com.example.cloudinteractiveraychang.util.UtilLog
 
 class ColorPresenter(val view: ColorView, override val model: ColorModel) : BasePresenter(model) {
 
@@ -18,5 +18,9 @@ class ColorPresenter(val view: ColorView, override val model: ColorModel) : Base
         view.closeLoadingDialog()
         alColor = colorData
         view.setColorData(alColor)
+    }
+
+    override fun onImageSuccess(msg: Message) {
+        TODO("Not yet implemented")
     }
 }

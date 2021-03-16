@@ -12,6 +12,7 @@ import com.example.cloudinteractiveraychang.MainActivity
 import com.example.cloudinteractiveraychang.R
 import com.example.cloudinteractiveraychang.data.Colors
 
+
 /**
  * 顏色總攬
  */
@@ -39,6 +40,7 @@ class ColorFragment : Fragment(), ColorView {
 
         return view
     }
+
 
     override fun setColorData(alColor: List<Colors>) {
         reColor.adapter = ColorAdapter(alColor, ColorAdapter.OnClickListener {

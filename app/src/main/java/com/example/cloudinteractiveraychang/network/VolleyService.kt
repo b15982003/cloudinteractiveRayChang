@@ -11,7 +11,7 @@ object VolleyService {
 
     val requestQueue: RequestQueue by lazy { Volley.newRequestQueue(context) }
 
-    val imageLoader: ImageLoader by lazy { ImageLoader(requestQueue, LruBitmapCache()) }
+    val imageLoader: ImageLoader by lazy { ImageLoader(requestQueue,LruBitmapCache()) }
 
     fun initialize(context: Context) {
         this.context = context.applicationContext

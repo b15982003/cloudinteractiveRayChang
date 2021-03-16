@@ -10,6 +10,7 @@ import com.example.cloudinteractiveraychang.network.VolleyService
 import com.example.cloudinteractiveraychang.util.UtilLog
 import com.google.gson.Gson
 
+
 class ColorModel(mainActivity: MainActivity) : BaseModel() {
 
     private val BASE_URL = "https://jsonplaceholder.typicode.com"
@@ -19,7 +20,6 @@ class ColorModel(mainActivity: MainActivity) : BaseModel() {
         val list = mutableListOf<Colors>()
         val stringRequest =
             StringRequest(
-
                 Request.Method.GET, url, Response.Listener<String> { response ->
                     val colors: List<Colors> =
                         Gson().fromJson(response, Array<Colors>::class.java).toList()
@@ -43,4 +43,5 @@ class ColorModel(mainActivity: MainActivity) : BaseModel() {
         UtilLog.d("model = ${colorData[1]}")
         onListener?.onConnectionSuccess(colorData)
     }
+
 }

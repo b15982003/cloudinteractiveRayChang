@@ -1,34 +1,54 @@
 package com.example.cloudinteractiveraychang.color
 
+import android.graphics.Bitmap
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.toolbox.NetworkImageView
 import com.example.cloudinteractiveraychang.R
 import com.example.cloudinteractiveraychang.data.Colors
-import com.example.cloudinteractiveraychang.network.VolleyService
-import com.example.cloudinteractiveraychang.util.Util
+import com.example.cloudinteractiveraychang.network.URLtoBitmapUtil
+import java.net.URL
 
-class ColorAdapter(private val colorData: List<Colors>,
-                   private val onClickListener: OnClickListener
+class ColorAdapter(
+    private val colorData: List<Colors>,
+    private val onClickListener: OnClickListener
 ) : RecyclerView.Adapter<ColorAdapter.mViewHolder>() {
 
     inner class mViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val id: TextView = itemView.findViewById(R.id.tvId)
         val title: TextView = itemView.findViewById(R.id.tvTitle)
-        val background : NetworkImageView = itemView.findViewById(R.id.ivBackground)
+        val background: ImageView = itemView.findViewById(R.id.ivBackground)
 
         fun bind(item: Colors) {
-            id.text = item.id.toString()
-            title.text = item.title
-            val splitThumbnailUrl = Util.splitUrl(item.thumbnailUrl,"/")
-            val textColor = "?f=#E8E8E4"
-            background.setDefaultImageResId(R.color.white)
-            background.setImageUrl(
-                "https://ipsumimage.appspot.com/${splitThumbnailUrl[3]},${splitThumbnailUrl[4]}${textColor}",
-                VolleyService.imageLoader)
+            val uiHandler: Handler = object : Handler(Looper.getMainLooper()){
+                override fun handleMessage(msg: Message) {
+                    when (msg.what) {
+                        1 -> {
+                            background.layoutParams.height = itemView.width
+                            background.setImageBitmap(msg.obj as Bitmap)
+                            id.text = item.id.toString()
+                            title.text = item.title
+                        }
+                    }
+                }
+            }
+
+            URLtoBitmapUtil.instance.get(
+                URL(colorData[position].thumbnailUrl)
+                ,object :URLtoBitmapUtil.URLtoBitmapTaskFinish{
+                    override fun onFinish(data: Bitmap?) {
+                        val msg = Message()
+                        msg.what = 1
+                        msg.obj = data
+                        uiHandler.sendMessage(msg)
+                    }
+                })
         }
     }
 
@@ -53,3 +73,8 @@ class ColorAdapter(private val colorData: List<Colors>,
         fun onClick(colors: Colors) = clickListener(colors)
     }
 }
+
+
+
+
+
